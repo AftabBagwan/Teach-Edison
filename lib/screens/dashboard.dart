@@ -26,11 +26,10 @@ final carouselImages = [
 ];
 
 const String? apiKey = '4cb93e31';
-String? searchValue = fieldText.text;
+String? searchValue;
 const String? api = "http://www.omdbapi.com/?s=avengers&apiKey=$apiKey";
 var searchData;
 List? data;
-final TextEditingController fieldText = TextEditingController();
 
 class _DashboardState extends State<Dashboard> {
   void _onItemTapped(int index) {
@@ -94,11 +93,12 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  controller: fieldText,
+                  onChanged: (value) {
+                    searchValue = value;
+                  },
                   onSubmitted: (searchValue) async {
                     await getApiJson();
                     if (searchData['Response'] != 'False') {
-                      fieldText.clear();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
